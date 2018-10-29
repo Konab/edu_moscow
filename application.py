@@ -10,10 +10,11 @@
 # @application.route('/index', methods=['GET', 'POST'])
 # def index():
 # 	return 'Hello world!'
-from application import application as app
+from app import app 
 
 
 
 # run the app
 if __name__ == '__main__':
+	app.debug = True
 	app.run()
