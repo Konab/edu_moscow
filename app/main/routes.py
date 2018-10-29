@@ -5,5 +5,5 @@ from app.main import bp
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])
 def index():
-	name = 'Константин'
+	name = 'МИР'
 	return render_template('index.html', name=name)
