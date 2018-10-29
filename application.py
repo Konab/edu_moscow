@@ -9,7 +9,7 @@ application.debug = True
 @application.route('/', methods=['GET', 'POST'])
 @application.route('/index', methods=['GET', 'POST'])
 def index():
-	return 'Hello world!' + os.environ.get('TEST_V')
+	return 'Hello world!'
 
 
 
