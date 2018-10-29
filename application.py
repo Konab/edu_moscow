@@ -1,4 +1,5 @@
 from flask import Flask
+import os
 
 
 # EB looks for an 'application' callable
@@ -8,7 +9,7 @@ application.debug = True
 @application.route('/', methods=['GET', 'POST'])
 @application.route('/index', methods=['GET', 'POST'])
 def index():
-	return 'Hello world!'
+	return 'Hello world!' + os.environ.get('TEST_V')
 
 
 
