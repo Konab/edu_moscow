@@ -1,7 +1,16 @@
+# from flask import Flask
+
+
+# application = Flask(__name__)
+
+
+# from app import routes, errors
 from flask import Flask
 
+def create_app():
+	app = Flask(__name__)
 
-app = Flask(__name__)
+	from app.main import bp as main_bp
+	app.register_blueprint(main_bp)
 
-
-from app import routes, errors
+	return app
