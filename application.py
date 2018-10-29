@@ -8,7 +8,7 @@ application.debug = True
 @application.route('/', methods=['GET', 'POST'])
 @application.route('/index', methods=['GET', 'POST'])
 def index():
-	return 'hello!'
+	return 'Hello world!'
 
 
 
