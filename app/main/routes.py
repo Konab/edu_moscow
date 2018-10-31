@@ -16,5 +16,5 @@ def index():
 	# 	db.session.close()
 	# 	flash("It's work!")
 	name = 'МИР'
-	name = Super.query.filter_by(id=1).first().name
+	name = Super.query.filter_by(id=2).first().name
 	return render_template('index.html', name=name)
