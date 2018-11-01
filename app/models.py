@@ -5,7 +5,7 @@ class Super(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(120), index=True)
 	lastname = db.Column(db.String(120), index=True)
-	test = db.Column(db.JSON)
+	# test = db.Column(db.JSON)
 
 	def __init__(self, name):
 		self.name = name
@@ -33,21 +33,22 @@ class Schools(db.Model):
 	# Организационно-правовая форма
 	legalorganization = db.Column(db.String(16), index=True)
 	# INN организации
-	inn = db.Column(db.Integer, index=True, unique=True)
+	inn = db.Column(db.String(16), index=True, unique=True)
 	# KPP организации
-	kpp = db.Column(db.Integer, index=True)
+	kpp = db.Column(db.String(16), index=True)
 	# IDEKIS организации
-	idekis = db.Column(db.Integer, index=True)
+	idekis = db.Column(db.String(16), index=True)
 	# 
 	number = db.Column(db.Integer, index=True)
 	# ОГРН организации
-	ogrn = db.Column(db.Integer, index=True)
+	ogrn = db.Column(db.String(16), index=True)
 	# Статус организации
 	reorganizationstatus = db.Column(db.String(16), index=True)
 	# Подчинение 
 	subordination = db.Column(db.String(32), index=True)
 	# Global ID организации
-	global_id = db.Column(db.Integer, index=True)
+	global_id = db.Column(db.String(16), index=True)
+	############# --Связи-- #############
 	# Образовательные программы организации (связь с EducationPrograms)
 	educationprograms = db.relationship('EducationPrograms', backref='school', lazy='dynamic')
 	# Образовательные услуги (связь с EducationalServices)
@@ -177,19 +178,3 @@ class LicensingAndAccreditation(db.Model):
 	AccreditationAvailability = db.Column(db.String(32), index=True)
 	# ID организации (связь с табоицей Schools)
 	school_id = db.Column(db.Integer, db.ForeignKey('schools.id'))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
