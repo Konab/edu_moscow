@@ -2,7 +2,7 @@ from flask import render_template, flash
 from app import db
 from app.main import bp
 # from app.main.forms import PostForm
-from app.models import Super
+from app.models import Schools
 
 
 @bp.route('/', methods=['GET', 'POST'])
@@ -16,5 +16,5 @@ def index():
 	# 	db.session.close()
 	# 	flash("It's work!")
 	name = 'МИР'
-	name = Super.query.filter_by(id=1).first().name
+	name = Schools.query.filter_by(id=1).first().chiefname
 	return render_template('index.html', name=name, title='Moscow')
