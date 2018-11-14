@@ -1,11 +1,12 @@
 from app import db
+from geoalchemy2.types import Geometry
 
 
 class Super(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(120), index=True)
 	lastname = db.Column(db.String(120), index=True)
-	# test = db.Column(db.JSON)
+	geom = db.Column(Geometry())
 
 	def __init__(self, name):
 		self.name = name
@@ -59,6 +60,8 @@ class Schools(db.Model):
 	institutionsaddresses = db.relationship('InstitutionsAddresses', backref='school', lazy='dynamic')
 	# Лицензирование и аккредитация
 	licensingandaccreditation = db.relationship('LicensingAndAccreditation', backref='school', lazy='dynamic')
+	# Гео данные школ
+	geodata = db.relationship('GeoData', backref='school', lazy='dynamic')
 
 	def __repr__(self):
 		return 'ShortName: {}, INN: {}, Address: {}'.format(self.shortname, self.inn, self.legaladdress)
@@ -128,7 +131,7 @@ class InstitutionsAddresses(db.Model):
 
 
 class Availability(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
+	id = db.Column(db.Integer, db.ForeignKey('institutions_addresses.id'), primary_key=True)
 	# Доступность объекта (инвалиды-опорники)
 	available_o = db.Column(db.String(32), index=True)
 	# Доступность объекта (инвалиды по зрению)
@@ -140,20 +143,20 @@ class Availability(db.Model):
 	# Элементы доступности (связь с таблицей Available_element)
 	available_element = db.relationship('Available_element', backref='availability', lazy='dynamic')
 	# institutionsaddresses_id организации (связь с табоицей InstitutionsAddresses)
-	institutionsaddresses_id = db.Column(db.Integer, db.ForeignKey('institutions_addresses.id'))
+	# institutionsaddresses_id = db.Column(db.Integer, db.ForeignKey('institutions_addresses.id'))
 
 class Available_element(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	# Группа
-	group_mgn = db.Column(db.String(32), index=True)
+	group_mgn = db.Column(db.String(64), index=True)
 	# Зона учреждения
-	area_mgn = db.Column(db.String(32), index=True)
+	area_mgn = db.Column(db.String(64), index=True)
 	# Элемент инфраструктуры
-	element_mgn = db.Column(db.String(32), index=True)
+	element_mgn = db.Column(db.String(64), index=True)
 	# Степень доступности
-	available_degree = db.Column(db.String(32), index=True)
+	available_degree = db.Column(db.String(64), index=True)
 	# Показатель доступности
-	available_index = db.Column(db.String(32), index=True)
+	available_index = db.Column(db.String(64), index=True)
 	# availability_id организации (связь с таблицей availability)
 	availability_id = db.Column(db.Integer, db.ForeignKey('availability.id'))
 
@@ -161,20 +164,30 @@ class Available_element(db.Model):
 class LicensingAndAccreditation(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	# Номер бланка аккредитационного свидетельства
-	AccreditationNumber = db.Column(db.String(32), index=True)
+	accreditationnumber = db.Column(db.String(32), index=True)
 	# Дата окончания срока действия аккредитационного свидетельства
-	AccreditationExpires = db.Column(db.String(32), index=True)
+	accreditationexpires = db.Column(db.String(32), index=True)
 	# Серия бланка аккредитационного свидетельства
-	AccreditationSeries = db.Column(db.String(32), index=True)
+	accreditationseries = db.Column(db.String(32), index=True)
 	# Признак наличия лицензии у ОУ
-	LicenseAvailability = db.Column(db.String(32), index=True)
+	licenseavailability = db.Column(db.String(32), index=True)
 	# Серия бланка лицензии
-	LicenseSeries = db.Column(db.String(32), index=True)
+	licenseseries = db.Column(db.String(32), index=True)
 	# Номер бланка лицензии
-	LicenseNumber = db.Column(db.String(32), index=True)
+	licensenumber = db.Column(db.String(32), index=True)
 	# Дата окончания срока действия лицензии
-	LicenseExpires = db.Column(db.String(32), index=True)
+	licenseexpires = db.Column(db.String(32), index=True)
 	# Признак наличия аккредитационного свидетельства у ОУ
-	AccreditationAvailability = db.Column(db.String(32), index=True)
+	accreditationavailability = db.Column(db.String(32), index=True)
+	# ID организации (связь с табоицей Schools)
+	school_id = db.Column(db.Integer, db.ForeignKey('schools.id'))
+
+
+class GeoData(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	# Гео данные школы
+	geom = db.Column(Geometry())
+	# Центр гео объекта
+	center = db.Column(Geometry())
 	# ID организации (связь с табоицей Schools)
 	school_id = db.Column(db.Integer, db.ForeignKey('schools.id'))
