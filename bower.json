@@ -1,0 +1,17 @@
+{
+  "name": "edu_moscow",
+  "homepage": "https://github.com/Konab/edu_moscow",
+  "authors": [
+    "Konab <konab-job@yandex.ru>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

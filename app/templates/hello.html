@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Flask React</title>
+</head>
+<body>
+	<div class='container'>
+		<h1>Flask React</h1>
+		<br/>
+		<div id='content'></div>
+	</div>
+	<script src="filename='bower_components/react/react.min.js') }}"></script>
+    <script src="filename='bower_components/react/react-dom.min.js') }}"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+	<script type="text/jsx">
+
+	var realPython = React.createClass({
+		render: function() {
+			return (<h2>Greetings, from Real Python!</h2>);
+		}
+	});
+
+	ReactDOM.render(
+		React.createElement(realPython, null),
+		document.getElementById('content')
+	);
+
+	</script>
+</body>
+</html>

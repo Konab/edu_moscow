@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Test Mos Map</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js'></script>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+</head>
+<body>
+    <div>
+      <div id='map'></div>  
+    </div>
+
+<script>
+
+    $.post('/get_gis', {
+        
+    }).done(function(response) {
+        console.log(response)
+    }).fail(function() {
+        console.log('FAIL /get_gis')
+    })
+
+    mapboxgl.accessToken = '{{ACCESS_KEY}}';
+    var map = new mapboxgl.Map({
+        container: 'map', // container id
+        style: 'mapbox://styles/mapbox/streets-v9', // stylesheet location
+        center: [37.6173, 55.7558], // starting position [lng, lat]
+        zoom: 9 // starting zoom
+    });
+
+   
+
+map.on('load', function () {
+    // Add a layer showing the places.
+    map.addLayer({
+        "id": "places",
+        "type": "symbol",
+        "source": {
+            "type": "geojson",
+            "data": {
+                "type": "FeatureCollection",
+                "features": 
+                [
+                    {'type': 'Feature', 'properties': {'description': '<p><strong>Школа №754</strong><br/>Адрес: 123154, г. Москва, улица Маршала Тухачевского, дом 20, копр.1<br/>Средняя зарплата: 54700.0<br/>Поступления: 114294872.0<br/>Расходы: 108165906.0</p><p>Персонал: 128.0</p>', 'icon': 'star'}, 'geometry': {'type': 'Point', 'coordinates': [37.479318044657, 55.783600789612]}
+                    }
+                ]
+            }
+        },
+        "layout": {
+            "icon-image": "{icon}-15",
+            "icon-allow-overlap": true
+        }
+    });
+
+    // When a click event occurs on a feature in the places layer, open a popup at the
+    // location of the feature, with description HTML from its properties.
+    map.on('click', 'places', function (e) {
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var description = e.features[0].properties.description;
+
+        // Ensure that if the map is zoomed out such that multiple
+        // copies of the feature are visible, the popup appears
+        // over the copy being pointed to.
+        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+        }
+
+        new mapboxgl.Popup()
+            .setLngLat(coordinates)
+            .setHTML(description)
+            .addTo(map);
+    });
+
+    // Change the cursor to a pointer when the mouse is over the places layer.
+    map.on('mouseenter', 'places', function () {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+
+    // Change it back to a pointer when it leaves.
+    map.on('mouseleave', 'places', function () {
+        map.getCanvas().style.cursor = '';
+    });
+
+    map.addControl(new mapboxgl.NavigationControl());
+});
+</script>
+
+</body>
+</html>
+

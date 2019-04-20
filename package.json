@@ -1,0 +1,22 @@
+{
+  "name": "edu_moscow",
+  "version": "1.0.0",
+  "description": "Edu Moscow #### edu_moscow",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Konab/edu_moscow.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Konab/edu_moscow/issues"
+  },
+  "homepage": "https://github.com/Konab/edu_moscow#readme",
+  "devDependencies": {
+    "bower": "^1.8.4"
+  }
+}
